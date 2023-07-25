@@ -207,9 +207,14 @@ namespace FinTrack.Pages.Dashboard
                 Incomes = user.Incomes.Where(i => i.Date.Year == DateTime.Now.Year).ToList();
                 Expenses = user.Expenses.Where(e => e.Date.Year == DateTime.Now.Year).ToList();
                 
-                MonthlyTotalIncomes = user.Incomes.Where(i => i.Date.Year == DateTime.Now.Year).GroupBy(i => i.Date.Month).Select(i => new Income { Amount = i.Sum(i => i.Amount), Date = new DateTime(DateTime.Now.Year, i.Key, 1) }).OrderBy(x => x.Date).ToList();
+                MonthlyTotalIncomes = user.Incomes
+                    .Where(i => i.Date.Year == DateTime.Now.Year)
+                    .GroupBy(i => i.Date.Month)
+                    .Select(i => 
+                        new Income { Amount = i.Sum(i => i.Amount), Date = new DateTime(DateTime.Now.Year, i.Key, 1) })
+                    .OrderBy(x => x.Date)
+                    .ToList();
                 MonthlyTotalExpenses = user.Expenses.Where(e => e.Date.Year == DateTime.Now.Year).GroupBy(e => e.Date.Month).Select(e => new Expense { Amount = e.Sum(e => e.Amount), Date = new DateTime(DateTime.Now.Year, e.Key, 1) }).OrderBy(x => x.Date).ToList();
-                
                 TopSpendingExpenseCategories = user.Expenses.Where(e => e.Date.Year == DateTime.Now.Year).GroupBy(e => e.Category).OrderByDescending(e => e.Sum(e => e.Amount)).Take(3).ToList();
                 TopIncomeCategories = user.Incomes.Where(i => i.Date.Year == DateTime.Now.Year).GroupBy(i => i.Category).OrderByDescending(i => i.Sum(i => i.Amount)).Take(3).ToList();
 

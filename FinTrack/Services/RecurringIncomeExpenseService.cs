@@ -55,7 +55,7 @@ namespace FinTrack.Services
                     Description = recurringIncome.Description,
                     Amount = recurringIncome.Amount,
                     Category = recurringIncome.Category,
-                    Date = now,
+                    Date = recurringIncome.NextRecurrenceDate,
                 };
 
                 if(recurringIncome.User == null) continue;
@@ -69,16 +69,16 @@ namespace FinTrack.Services
                 switch (recurringIncome.RecurrenceInterval)
                 {
                     case RecurrenceInterval.Daily:
-                        recurringIncome.NextRecurrenceDate = now.AddDays(1);
+                        recurringIncome.NextRecurrenceDate = recurringIncome.NextRecurrenceDate.AddDays(1);
                         break;
                     case RecurrenceInterval.Weekly:
-                        recurringIncome.NextRecurrenceDate = now.AddDays(7);
+                        recurringIncome.NextRecurrenceDate = recurringIncome.NextRecurrenceDate.AddDays(7);
                         break;
                     case RecurrenceInterval.Monthly:
-                        recurringIncome.NextRecurrenceDate = now.AddMonths(1);
+                        recurringIncome.NextRecurrenceDate = recurringIncome.NextRecurrenceDate.AddMonths(1);
                         break;
                     case RecurrenceInterval.Yearly:
-                        recurringIncome.NextRecurrenceDate = now.AddYears(1);
+                        recurringIncome.NextRecurrenceDate = recurringIncome.NextRecurrenceDate.AddYears(1);
                         break;
                 }
             }
@@ -91,7 +91,7 @@ namespace FinTrack.Services
                     Description = recurringExpense.Description,
                     Amount = recurringExpense.Amount,
                     Category = recurringExpense.Category,
-                    Date = now,
+                    Date = recurringExpense.NextRecurrenceDate,
                 };
 
                 if (recurringExpense.User == null) continue;
@@ -105,16 +105,16 @@ namespace FinTrack.Services
                 switch (recurringExpense.RecurrenceInterval)
                 {
                     case RecurrenceInterval.Daily:
-                        recurringExpense.NextRecurrenceDate = now.AddDays(1);
+                        recurringExpense.NextRecurrenceDate = recurringExpense.NextRecurrenceDate.AddDays(1);
                         break;
                     case RecurrenceInterval.Weekly:
-                        recurringExpense.NextRecurrenceDate = now.AddDays(7);
+                        recurringExpense.NextRecurrenceDate = recurringExpense.NextRecurrenceDate.AddDays(7);
                         break;
                     case RecurrenceInterval.Monthly:
-                        recurringExpense.NextRecurrenceDate = now.AddMonths(1);
+                        recurringExpense.NextRecurrenceDate = recurringExpense.NextRecurrenceDate.AddMonths(1);
                         break;
                     case RecurrenceInterval.Yearly:
-                        recurringExpense.NextRecurrenceDate = now.AddYears(1);
+                        recurringExpense.NextRecurrenceDate = recurringExpense.NextRecurrenceDate.AddYears(1);
                         break;
                 }
             }

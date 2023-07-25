@@ -37,7 +37,10 @@ namespace FinTrack.Pages.Dashboard
 
         public void OnGet()
         {
-            var user = _context.Users.Include(x => x.Incomes).Include(x => x.Expenses).FirstOrDefault(x => x.Id == _userManager.GetUserId(User));
+            var user = _context.Users
+                .Include(x => x.Incomes)
+                .Include(x => x.Expenses)
+                .FirstOrDefault(x => x.Id == _userManager.GetUserId(User));
 
             if (user == null)
                 return;
@@ -49,10 +52,22 @@ namespace FinTrack.Pages.Dashboard
             MonthlyExpense = user.Expenses.Where(x => x.Date.Month == DateTime.Now.Month).Sum(x => x.Amount);
             MonthlyIncome = user.Incomes.Where(x => x.Date.Month == DateTime.Now.Month).Sum(x => x.Amount);
             MonthylBalance = MonthlyIncome - MonthlyExpense;
-            TopExpenseCategory = user.Expenses.Where(x => x.Date.Month == DateTime.Now.Month).GroupBy(x => x.Category).OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Key).FirstOrDefault() ?? "";
-            TopExpenseCategoryAmount = user.Expenses.Where(x => x.Date.Month == DateTime.Now.Month).GroupBy(x => x.Category).OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Sum(y => y.Amount)).FirstOrDefault();
-            TopIncomeCategory = user.Incomes.Where(x => x.Date.Month == DateTime.Now.Month).GroupBy(x => x.Category).OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Key).FirstOrDefault() ?? "";
-            TopIncomeCategoryAmount = user.Incomes.Where(x => x.Date.Month == DateTime.Now.Month).GroupBy(x => x.Category).OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Sum(y => y.Amount)).FirstOrDefault();
+            TopExpenseCategory = user.Expenses
+                .Where(x => x.Date.Month == DateTime.Now.Month)
+                .GroupBy(x => x.Category)
+                .OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Key).FirstOrDefault() ?? "";
+            TopExpenseCategoryAmount = user.Expenses
+                .Where(x => x.Date.Month == DateTime.Now.Month)
+                .GroupBy(x => x.Category)
+                .OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Sum(y => y.Amount)).FirstOrDefault();
+            TopIncomeCategory = user.Incomes
+                .Where(x => x.Date.Month == DateTime.Now.Month)
+                .GroupBy(x => x.Category)
+                .OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Key).FirstOrDefault() ?? "";
+            TopIncomeCategoryAmount = user.Incomes
+                .Where(x => x.Date.Month == DateTime.Now.Month)
+                .GroupBy(x => x.Category)
+                .OrderByDescending(x => x.Sum(y => y.Amount)).Select(x => x.Sum(y => y.Amount)).FirstOrDefault();
         }
     }
 }

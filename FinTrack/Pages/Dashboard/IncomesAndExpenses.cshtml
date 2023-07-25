@@ -58,6 +58,9 @@
                     </div>
                 </div>
             </div>
+            @{
+                int i = 0;
+            }
             @foreach (var income in Model.Incomes)
             {
                 <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
@@ -74,10 +77,10 @@
                     <div>
                         <form class="form-inline" asp-page-handler="DeleteIncome">
                             <input asp-for="DeleteId" hidden value="@income.Id">
-                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".income-delete-modal-sm">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".income-delete-modal-sm-@i">
                                 <i class="bi bi-trash-fill h3"></i>
                             </button>
-                            <div class="modal fade income-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal fade income-delete-modal-sm-@i" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="t-bg-elevate-1 p-3">
@@ -94,6 +97,7 @@
                         </form>
                     </div>
                 </div>
+                i++;
             }
             @if (Model.Incomes.Count == 0)
             {
@@ -161,6 +165,9 @@
                     </div>
                 </div>
             </div>
+            @{
+                i = 0;
+            }
             @foreach (var income in Model.RecurringIncomes)
             {
                 <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
@@ -189,10 +196,10 @@
                     <div>
                         <form class="form-inline" asp-page-handler="DeleteRecurringIncome">
                             <input asp-for="DeleteId" hidden value="@income.Id">
-                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".rincome-delete-modal-sm">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".rincome-delete-modal-sm-@i">
                                 <i class="bi bi-trash-fill h3"></i>
                             </button>
-                            <div class="modal fade rincome-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal fade rincome-delete-modal-sm-@i" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="t-bg-elevate-1 p-3">
@@ -209,6 +216,7 @@
                         </form>
                     </div>
                 </div>
+                i++;
             }
             @if (Model.RecurringIncomes.Count == 0)
             {
@@ -273,6 +281,9 @@
                     </div>
                 </div>
             </div>
+            @{
+                i = 0;
+            }
             @foreach (var expense in Model.Expenses)
             {
                 <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
@@ -289,10 +300,10 @@
                     <div>
                         <form class="form-inline" asp-page-handler="DeleteExpense">
                             <input asp-for="DeleteId" hidden value="@expense.Id">
-                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".expense-delete-modal-sm">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".expense-delete-modal-sm-@i">
                                 <i class="bi bi-trash-fill h3"></i>
                             </button>
-                            <div class="modal fade expense-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal fade expense-delete-modal-sm-@i" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="t-bg-elevate-1 p-3">
@@ -309,6 +320,7 @@
                         </form>
                     </div>
                 </div>
+                i++;
             }
             @if (Model.Expenses.Count == 0)
             {
@@ -381,6 +393,9 @@
                     </div>
                 </div>
             </div>
+            @{
+                i = 0;
+            }
             @foreach (var expense in Model.RecurringExpenses)
             {
                 <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
@@ -409,10 +424,10 @@
                     <div>
                         <form class="form-inline" asp-page-handler="DeleteRecurringExpense">
                             <input asp-for="DeleteId" hidden value="@expense.Id">
-                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".rexpense-delete-modal-sm">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".rexpense-delete-modal-sm-@i">
                                 <i class="bi bi-trash-fill h3"></i>
                             </button>
-                            <div class="modal fade rexpense-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal fade rexpense-delete-modal-sm-@i" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="t-bg-elevate-1 p-3">
@@ -429,6 +444,8 @@
                         </form>
                     </div>
                 </div>
+
+                i++;
             }
             @if (Model.RecurringExpenses.Count == 0)
             {
