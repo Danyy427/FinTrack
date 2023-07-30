@@ -1,0 +1,332 @@
+﻿@page
+@model FinTrack.Pages.SignUpModel
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="container">
+    <div class="border-radius-1 p-3 t-bg-elevate-1 t-text text-center">
+        <div class="display-4">Sign Up to FinTrack</div>
+    </div>
+    <div class="row row-cols-1 row-cols-lg-2 g-2 mb-2">
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 h-100 mt-2">
+                <img src="https://source.unsplash.com/500x300/?signup" style="max-height: 300px; object-fit: cover; filter: brightness(.8) contrast(1.2);" class="w-100 mt-2 px-2" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="border-radius-1 p-3 t-bg-elevate-1 h-100 t-text mt-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <form method="post">
+                    <div class="d-flex justify-content-between">
+                        <div class="form-floating mb-3 me-1 w-100">
+                            <input asp-for="Input.Email" class="form-control t-bg-elevate-2 border-0 t-text" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <label asp-for="Input.Email" class="form-label t-text">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3 ms-1 w-100">
+                            <input asp-for="Input.FullName" class="form-control t-bg-elevate-2 border-0 t-text" autocomplete="name" aria-required="true" placeholder="Full Name" />
+                            <label asp-for="Input.FullName" class="form-label t-text">Full Name</label>
+                            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="form-floating mb-3 w-100">
+                            <input type="number" step="1" min="1" max="999" asp-for="Input.Age" class="form-control t-bg-elevate-2 border-0 t-text" autocomplete="age" aria-required="true" placeholder="Age" />
+                            <label asp-for="Input.Age" class="form-label t-text">Age</label>
+                            <span asp-validation-for="Input.Age" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3 mx-2 w-100">
+                            <select asp-for="Input.Sex" class="form-control t-bg-elevate-2 border-0 t-text" autocomplete="sex" aria-required="true" placeholder="Sex">
+                                <option class="t-text" selected disabled>--Select--</option>
+                                <option class="t-text" value="1">Male</option>
+                                <option class="t-text" value="2">Female</option>
+                                <option class="t-text" value="3">Other</option>
+                            </select>
+                            <label asp-for="Input.Sex" class="form-label t-text">Sex</label>
+                            <span asp-validation-for="Input.Sex" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3 w-100">
+                            <select asp-for="Input.Country" class="form-control t-bg-elevate-2 border-0 t-text" autocomplete="country" aria-required="true" placeholder="Country">
+                                <option class="t-text" selected disabled>--Select--</option>
+                                <option class="t-text" value="AF">Afghanistan</option>
+                                <option class="t-text" value="AX">Aland Islands</option>
+                                <option class="t-text" value="AL">Albania</option>
+                                <option class="t-text" value="DZ">Algeria</option>
+                                <option class="t-text" value="AS">American Samoa</option>
+                                <option class="t-text" value="AD">Andorra</option>
+                                <option class="t-text" value="AO">Angola</option>
+                                <option class="t-text" value="AI">Anguilla</option>
+                                <option class="t-text" value="AQ">Antarctica</option>
+                                <option class="t-text" value="AG">Antigua and Barbuda</option>
+                                <option class="t-text" value="AR">Argentina</option>
+                                <option class="t-text" value="AM">Armenia</option>
+                                <option class="t-text" value="AW">Aruba</option>
+                                <option class="t-text" value="AU">Australia</option>
+                                <option class="t-text" value="AT">Austria</option>
+                                <option class="t-text" value="AZ">Azerbaijan</option>
+                                <option class="t-text" value="BS">Bahamas</option>
+                                <option class="t-text" value="BH">Bahrain</option>
+                                <option class="t-text" value="BD">Bangladesh</option>
+                                <option class="t-text" value="BB">Barbados</option>
+                                <option class="t-text" value="BY">Belarus</option>
+                                <option class="t-text" value="BE">Belgium</option>
+                                <option class="t-text" value="BZ">Belize</option>
+                                <option class="t-text" value="BJ">Benin</option>
+                                <option class="t-text" value="BM">Bermuda</option>
+                                <option class="t-text" value="BT">Bhutan</option>
+                                <option class="t-text" value="BO">Bolivia</option>
+                                <option class="t-text" value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                                <option class="t-text" value="BA">Bosnia and Herzegovina</option>
+                                <option class="t-text" value="BW">Botswana</option>
+                                <option class="t-text" value="BV">Bouvet Island</option>
+                                <option class="t-text" value="BR">Brazil</option>
+                                <option class="t-text" value="IO">British Indian Ocean Territory</option>
+                                <option class="t-text" value="BN">Brunei Darussalam</option>
+                                <option class="t-text" value="BG">Bulgaria</option>
+                                <option class="t-text" value="BF">Burkina Faso</option>
+                                <option class="t-text" value="BI">Burundi</option>
+                                <option class="t-text" value="KH">Cambodia</option>
+                                <option class="t-text" value="CM">Cameroon</option>
+                                <option class="t-text" value="CA">Canada</option>
+                                <option class="t-text" value="CV">Cape Verde</option>
+                                <option class="t-text" value="KY">Cayman Islands</option>
+                                <option class="t-text" value="CF">Central African Republic</option>
+                                <option class="t-text" value="TD">Chad</option>
+                                <option class="t-text" value="CL">Chile</option>
+                                <option class="t-text" value="CN">China</option>
+                                <option class="t-text" value="CX">Christmas Island</option>
+                                <option class="t-text" value="CC">Cocos (Keeling) Islands</option>
+                                <option class="t-text" value="CO">Colombia</option>
+                                <option class="t-text" value="KM">Comoros</option>
+                                <option class="t-text" value="CG">Congo</option>
+                                <option class="t-text" value="CD">Congo, Democratic Republic of the Congo</option>
+                                <option class="t-text" value="CK">Cook Islands</option>
+                                <option class="t-text" value="CR">Costa Rica</option>
+                                <option class="t-text" value="CI">Cote D'Ivoire</option>
+                                <option class="t-text" value="HR">Croatia</option>
+                                <option class="t-text" value="CU">Cuba</option>
+                                <option class="t-text" value="CW">Curacao</option>
+                                <option class="t-text" value="CY">Cyprus</option>
+                                <option class="t-text" value="CZ">Czech Republic</option>
+                                <option class="t-text" value="DK">Denmark</option>
+                                <option class="t-text" value="DJ">Djibouti</option>
+                                <option class="t-text" value="DM">Dominica</option>
+                                <option class="t-text" value="DO">Dominican Republic</option>
+                                <option class="t-text" value="EC">Ecuador</option>
+                                <option class="t-text" value="EG">Egypt</option>
+                                <option class="t-text" value="SV">El Salvador</option>
+                                <option class="t-text" value="GQ">Equatorial Guinea</option>
+                                <option class="t-text" value="ER">Eritrea</option>
+                                <option class="t-text" value="EE">Estonia</option>
+                                <option class="t-text" value="ET">Ethiopia</option>
+                                <option class="t-text" value="FK">Falkland Islands (Malvinas)</option>
+                                <option class="t-text" value="FO">Faroe Islands</option>
+                                <option class="t-text" value="FJ">Fiji</option>
+                                <option class="t-text" value="FI">Finland</option>
+                                <option class="t-text" value="FR">France</option>
+                                <option class="t-text" value="GF">French Guiana</option>
+                                <option class="t-text" value="PF">French Polynesia</option>
+                                <option class="t-text" value="TF">French Southern Territories</option>
+                                <option class="t-text" value="GA">Gabon</option>
+                                <option class="t-text" value="GM">Gambia</option>
+                                <option class="t-text" value="GE">Georgia</option>
+                                <option class="t-text" value="DE">Germany</option>
+                                <option class="t-text" value="GH">Ghana</option>
+                                <option class="t-text" value="GI">Gibraltar</option>
+                                <option class="t-text" value="GR">Greece</option>
+                                <option class="t-text" value="GL">Greenland</option>
+                                <option class="t-text" value="GD">Grenada</option>
+                                <option class="t-text" value="GP">Guadeloupe</option>
+                                <option class="t-text" value="GU">Guam</option>
+                                <option class="t-text" value="GT">Guatemala</option>
+                                <option class="t-text" value="GG">Guernsey</option>
+                                <option class="t-text" value="GN">Guinea</option>
+                                <option class="t-text" value="GW">Guinea-Bissau</option>
+                                <option class="t-text" value="GY">Guyana</option>
+                                <option class="t-text" value="HT">Haiti</option>
+                                <option class="t-text" value="HM">Heard Island and Mcdonald Islands</option>
+                                <option class="t-text" value="VA">Holy See (Vatican City State)</option>
+                                <option class="t-text" value="HN">Honduras</option>
+                                <option class="t-text" value="HK">Hong Kong</option>
+                                <option class="t-text" value="HU">Hungary</option>
+                                <option class="t-text" value="IS">Iceland</option>
+                                <option class="t-text" value="IN">India</option>
+                                <option class="t-text" value="ID">Indonesia</option>
+                                <option class="t-text" value="IR">Iran, Islamic Republic of</option>
+                                <option class="t-text" value="IQ">Iraq</option>
+                                <option class="t-text" value="IE">Ireland</option>
+                                <option class="t-text" value="IM">Isle of Man</option>
+                                <option class="t-text" value="IL">Israel</option>
+                                <option class="t-text" value="IT">Italy</option>
+                                <option class="t-text" value="JM">Jamaica</option>
+                                <option class="t-text" value="JP">Japan</option>
+                                <option class="t-text" value="JE">Jersey</option>
+                                <option class="t-text" value="JO">Jordan</option>
+                                <option class="t-text" value="KZ">Kazakhstan</option>
+                                <option class="t-text" value="KE">Kenya</option>
+                                <option class="t-text" value="KI">Kiribati</option>
+                                <option class="t-text" value="KP">Korea, Democratic People's Republic of</option>
+                                <option class="t-text" value="KR">Korea, Republic of</option>
+                                <option class="t-text" value="XK">Kosovo</option>
+                                <option class="t-text" value="KW">Kuwait</option>
+                                <option class="t-text" value="KG">Kyrgyzstan</option>
+                                <option class="t-text" value="LA">Lao People's Democratic Republic</option>
+                                <option class="t-text" value="LV">Latvia</option>
+                                <option class="t-text" value="LB">Lebanon</option>
+                                <option class="t-text" value="LS">Lesotho</option>
+                                <option class="t-text" value="LR">Liberia</option>
+                                <option class="t-text" value="LY">Libyan Arab Jamahiriya</option>
+                                <option class="t-text" value="LI">Liechtenstein</option>
+                                <option class="t-text" value="LT">Lithuania</option>
+                                <option class="t-text" value="LU">Luxembourg</option>
+                                <option class="t-text" value="MO">Macao</option>
+                                <option class="t-text" value="MK">Macedonia, the Former Yugoslav Republic of</option>
+                                <option class="t-text" value="MG">Madagascar</option>
+                                <option class="t-text" value="MW">Malawi</option>
+                                <option class="t-text" value="MY">Malaysia</option>
+                                <option class="t-text" value="MV">Maldives</option>
+                                <option class="t-text" value="ML">Mali</option>
+                                <option class="t-text" value="MT">Malta</option>
+                                <option class="t-text" value="MH">Marshall Islands</option>
+                                <option class="t-text" value="MQ">Martinique</option>
+                                <option class="t-text" value="MR">Mauritania</option>
+                                <option class="t-text" value="MU">Mauritius</option>
+                                <option class="t-text" value="YT">Mayotte</option>
+                                <option class="t-text" value="MX">Mexico</option>
+                                <option class="t-text" value="FM">Micronesia, Federated States of</option>
+                                <option class="t-text" value="MD">Moldova, Republic of</option>
+                                <option class="t-text" value="MC">Monaco</option>
+                                <option class="t-text" value="MN">Mongolia</option>
+                                <option class="t-text" value="ME">Montenegro</option>
+                                <option class="t-text" value="MS">Montserrat</option>
+                                <option class="t-text" value="MA">Morocco</option>
+                                <option class="t-text" value="MZ">Mozambique</option>
+                                <option class="t-text" value="MM">Myanmar</option>
+                                <option class="t-text" value="NA">Namibia</option>
+                                <option class="t-text" value="NR">Nauru</option>
+                                <option class="t-text" value="NP">Nepal</option>
+                                <option class="t-text" value="NL">Netherlands</option>
+                                <option class="t-text" value="AN">Netherlands Antilles</option>
+                                <option class="t-text" value="NC">New Caledonia</option>
+                                <option class="t-text" value="NZ">New Zealand</option>
+                                <option class="t-text" value="NI">Nicaragua</option>
+                                <option class="t-text" value="NE">Niger</option>
+                                <option class="t-text" value="NG">Nigeria</option>
+                                <option class="t-text" value="NU">Niue</option>
+                                <option class="t-text" value="NF">Norfolk Island</option>
+                                <option class="t-text" value="MP">Northern Mariana Islands</option>
+                                <option class="t-text" value="NO">Norway</option>
+                                <option class="t-text" value="OM">Oman</option>
+                                <option class="t-text" value="PK">Pakistan</option>
+                                <option class="t-text" value="PW">Palau</option>
+                                <option class="t-text" value="PS">Palestinian Territory, Occupied</option>
+                                <option class="t-text" value="PA">Panama</option>
+                                <option class="t-text" value="PG">Papua New Guinea</option>
+                                <option class="t-text" value="PY">Paraguay</option>
+                                <option class="t-text" value="PE">Peru</option>
+                                <option class="t-text" value="PH">Philippines</option>
+                                <option class="t-text" value="PN">Pitcairn</option>
+                                <option class="t-text" value="PL">Poland</option>
+                                <option class="t-text" value="PT">Portugal</option>
+                                <option class="t-text" value="PR">Puerto Rico</option>
+                                <option class="t-text" value="QA">Qatar</option>
+                                <option class="t-text" value="RE">Reunion</option>
+                                <option class="t-text" value="RO">Romania</option>
+                                <option class="t-text" value="RU">Russian Federation</option>
+                                <option class="t-text" value="RW">Rwanda</option>
+                                <option class="t-text" value="BL">Saint Barthelemy</option>
+                                <option class="t-text" value="SH">Saint Helena</option>
+                                <option class="t-text" value="KN">Saint Kitts and Nevis</option>
+                                <option class="t-text" value="LC">Saint Lucia</option>
+                                <option class="t-text" value="MF">Saint Martin</option>
+                                <option class="t-text" value="PM">Saint Pierre and Miquelon</option>
+                                <option class="t-text" value="VC">Saint Vincent and the Grenadines</option>
+                                <option class="t-text" value="WS">Samoa</option>
+                                <option class="t-text" value="SM">San Marino</option>
+                                <option class="t-text" value="ST">Sao Tome and Principe</option>
+                                <option class="t-text" value="SA">Saudi Arabia</option>
+                                <option class="t-text" value="SN">Senegal</option>
+                                <option class="t-text" value="RS">Serbia</option>
+                                <option class="t-text" value="CS">Serbia and Montenegro</option>
+                                <option class="t-text" value="SC">Seychelles</option>
+                                <option class="t-text" value="SL">Sierra Leone</option>
+                                <option class="t-text" value="SG">Singapore</option>
+                                <option class="t-text" value="SX">Sint Maarten</option>
+                                <option class="t-text" value="SK">Slovakia</option>
+                                <option class="t-text" value="SI">Slovenia</option>
+                                <option class="t-text" value="SB">Solomon Islands</option>
+                                <option class="t-text" value="SO">Somalia</option>
+                                <option class="t-text" value="ZA">South Africa</option>
+                                <option class="t-text" value="GS">South Georgia and the South Sandwich Islands</option>
+                                <option class="t-text" value="SS">South Sudan</option>
+                                <option class="t-text" value="ES">Spain</option>
+                                <option class="t-text" value="LK">Sri Lanka</option>
+                                <option class="t-text" value="SD">Sudan</option>
+                                <option class="t-text" value="SR">Suriname</option>
+                                <option class="t-text" value="SJ">Svalbard and Jan Mayen</option>
+                                <option class="t-text" value="SZ">Swaziland</option>
+                                <option class="t-text" value="SE">Sweden</option>
+                                <option class="t-text" value="CH">Switzerland</option>
+                                <option class="t-text" value="SY">Syrian Arab Republic</option>
+                                <option class="t-text" value="TW">Taiwan, Province of China</option>
+                                <option class="t-text" value="TJ">Tajikistan</option>
+                                <option class="t-text" value="TZ">Tanzania, United Republic of</option>
+                                <option class="t-text" value="TH">Thailand</option>
+                                <option class="t-text" value="TL">Timor-Leste</option>
+                                <option class="t-text" value="TG">Togo</option>
+                                <option class="t-text" value="TK">Tokelau</option>
+                                <option class="t-text" value="TO">Tonga</option>
+                                <option class="t-text" value="TT">Trinidad and Tobago</option>
+                                <option class="t-text" value="TN">Tunisia</option>
+                                <option class="t-text" value="TR">Turkey</option>
+                                <option class="t-text" value="TM">Turkmenistan</option>
+                                <option class="t-text" value="TC">Turks and Caicos Islands</option>
+                                <option class="t-text" value="TV">Tuvalu</option>
+                                <option class="t-text" value="UG">Uganda</option>
+                                <option class="t-text" value="UA">Ukraine</option>
+                                <option class="t-text" value="AE">United Arab Emirates</option>
+                                <option class="t-text" value="GB">United Kingdom</option>
+                                <option class="t-text" value="US">United States</option>
+                                <option class="t-text" value="UM">United States Minor Outlying Islands</option>
+                                <option class="t-text" value="UY">Uruguay</option>
+                                <option class="t-text" value="UZ">Uzbekistan</option>
+                                <option class="t-text" value="VU">Vanuatu</option>
+                                <option class="t-text" value="VE">Venezuela</option>
+                                <option class="t-text" value="VN">Viet Nam</option>
+                                <option class="t-text" value="VG">Virgin Islands, British</option>
+                                <option class="t-text" value="VI">Virgin Islands, U.s.</option>
+                                <option class="t-text" value="WF">Wallis and Futuna</option>
+                                <option class="t-text" value="EH">Western Sahara</option>
+                                <option class="t-text" value="YE">Yemen</option>
+                                <option class="t-text" value="ZM">Zambia</option>
+                                <option class="t-text" value="ZW">Zimbabwe</option>
+                            </select>
+                            <label asp-for="Input.Country" class="form-label t-text">Country</label>
+                            <span asp-validation-for="Input.Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="form-floating mb-3 me-1 w-100">
+                            <input asp-for="Input.Password" class="form-control t-bg-elevate-2 border-0 t-text" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.Password" class="form-label t-text">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3 ms-1 w-100">
+                            <input asp-for="Input.ConfirmPassword" class="form-control t-bg-elevate-2 border-0 t-text" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                            <label asp-for="Input.ConfirmPassword" class="form-label t-text">Confirm Password</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <button id="signup-submit" type="submit" class="border-0 t-bg-primary t-text-dark site-button">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

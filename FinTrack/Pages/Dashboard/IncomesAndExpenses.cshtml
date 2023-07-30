@@ -1,0 +1,462 @@
+﻿@page
+@model FinTrack.Pages.Dashboard.IncomesAndExpensesModel
+@{
+}
+
+<div class="container">
+    <div class="d-flex w-100 my-2">
+        <button class="site-button t-bg-elevate-1 flex-fill me-1" onclick="ShowIncomes()">Incomes</button>
+        <button class="site-button t-bg-elevate-1 flex-fill ms-1" onclick="ShowExpenses()">Expenses</button>
+    </div>
+    <div id="incomes" class="d-block w-100">
+        <div class="t-bg-elevate-1 w-100 border-radius-1 p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="h1 text-light">Incomes</div>
+                <button class="site-button t-bg-primary" data-bs-toggle="modal" data-bs-target=".income-modal-lg">Add Income <i class="bi bi-plus-lg"></i></button>
+                <div class="modal fade income-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content t-bg-elevate-1 p-4">
+                            <div class="h1">Add A New Income</div>
+                            <hr />
+                            <form method="post" asp-page-handler="CreateIncome">
+                                <div class="form-group mb-3">
+                                    <label asp-for="IncomeInput.Name" class="form-label t-text">Name</label>
+                                    <input asp-for="IncomeInput.Name" class="form-control t-bg-elevate-2 border-0" autocomplete="name" aria-required="true" placeholder="Name" />
+                                    <span asp-validation-for="IncomeInput.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="IncomeInput.Description" class="form-label t-text">Description</label>
+                                    <input asp-for="IncomeInput.Description" class="form-control t-bg-elevate-2 border-0" autocomplete="description" aria-required="true" placeholder="Description" />
+                                    <span asp-validation-for="IncomeInput.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="IncomeInput.Category" class="form-label t-text">Category</label>
+                                    <select asp-for="IncomeInput.Category" class="form-control t-bg-elevate-2 border-0" autocomplete="category" aria-required="true" placeholder="Category">
+                                        <option value="Employment Income">Employment Income</option>
+                                        <option value="Self-Employment Income">Self-Employment Income</option>
+                                        <option value="Investment Income">Investment Income</option>
+                                        <option value="Retirement Income">Retirement Income</option>
+                                        <option value="Government Benefits">Government Benefits</option>
+                                        <option value="Other Income">Other Income</option>
+                                        <option value="MiscellaneousIncome">Miscellaneous</option>
+                                    </select>
+                                    <span asp-validation-for="IncomeInput.Category" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="IncomeInput.Amount" class="form-label t-text">Amount</label>
+                                    <input type="number" step="0.01" min="0" asp-for="IncomeInput.Amount" class="form-control t-bg-elevate-2 border-0" autocomplete="amount" aria-required="true" placeholder="Amount" />
+                                    <span asp-validation-for="IncomeInput.Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="IncomeInput.Date" class="form-label t-text">Date</label>
+                                    <input type="date" asp-for="IncomeInput.Date" class="form-control t-bg-elevate-2 border-0" autocomplete="date" aria-required="true" placeholder="Date" />
+                                    <span asp-validation-for="IncomeInput.Date" class="text-danger"></span>
+                                </div>
+                                <button class="site-button t-bg-primary">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var income in Model.Incomes)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
+                    <div class="flex-fill">
+                        <div class="h5 text-light"><span class="d-none d-sm-inline">@income.Category - </span>@income.Name</div>
+                        <div class="h6 text-light">@income.Description</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@income.Amount.ToString("#.00") &#8378;</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@income.Date.ToShortDateString()</div>
+                    </div>
+                    <div>
+                        <form class="form-inline" asp-page-handler="DeleteIncome">
+                            <input asp-for="DeleteId" hidden value="@income.Id">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".income-delete-modal-sm">
+                                <i class="bi bi-trash-fill h3"></i>
+                            </button>
+                            <div class="modal fade income-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="t-bg-elevate-1 p-3">
+                                            <div class="h1">Are you sure?</div>
+                                            <hr />
+                                            <div class="d-flex justify-content-around">
+                                                <button type="submit" class="t-bg-secondary site-button w-100 me-2">Yes</button>
+                                                <button type="button" class="t-bg-danger site-button w-100" data-bs-dismiss="modal" aria-label="Close">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            @if (Model.Incomes.Count == 0)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-3">
+                    <div class="h1 text-center w-100 text-light">No Income Entries Found!</div>
+                </div>
+            }
+        </div>
+        <div class="t-bg-elevate-1 w-100 border-radius-1 p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="h1 text-light">Recurring Incomes</div>
+                <button class="site-button t-bg-primary" data-bs-toggle="modal" data-bs-target=".rincome-modal-lg">Add Recurring Income <i class="bi bi-plus-lg"></i></button>
+                <div class="modal fade rincome-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content t-bg-elevate-1 p-4">
+                            <div class="h1">Add A New Recurring Income</div>
+                            <hr />
+                            <form method="post" asp-page-handler="CreateRecurringIncome">
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringIncomeInput.Name" class="form-label t-text">Name</label>
+                                    <input asp-for="RecurringIncomeInput.Name" class="form-control t-bg-elevate-2 border-0" autocomplete="name" aria-required="true" placeholder="Name" />
+                                    <span asp-validation-for="RecurringIncomeInput.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringIncomeInput.Description" class="form-label t-text">Description</label>
+                                    <input asp-for="RecurringIncomeInput.Description" class="form-control t-bg-elevate-2 border-0" autocomplete="description" aria-required="true" placeholder="Description" />
+                                    <span asp-validation-for="RecurringIncomeInput.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringIncomeInput.Category" class="form-label t-text">Category</label>
+                                    <select asp-for="RecurringIncomeInput.Category" class="form-control t-bg-elevate-2 border-0" autocomplete="category" aria-required="true" placeholder="Category">
+                                        <option value="Employment Income">Employment Income</option>
+                                        <option value="Self-Employment Income">Self-Employment Income</option>
+                                        <option value="Investment Income">Investment Income</option>
+                                        <option value="Retirement Income">Retirement Income</option>
+                                        <option value="Government Benefits">Government Benefits</option>
+                                        <option value="Other Income">Other Income</option>
+                                        <option value="MiscellaneousIncome">Miscellaneous</option>
+                                    </select>
+                                    <span asp-validation-for="RecurringIncomeInput.Category" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringIncomeInput.Interval" class="form-label t-text">Category</label>
+                                    <select asp-for="RecurringIncomeInput.Interval" class="form-control t-bg-elevate-2 border-0" autocomplete="interval" aria-required="true" placeholder="Interval">
+                                        <option value="0">Daily</option>
+                                        <option value="1">Weekly</option>
+                                        <option value="2">Monthly</option>
+                                        <option value="3">Yearly</option>
+                                    </select>
+                                    <span asp-validation-for="RecurringIncomeInput.Interval" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringIncomeInput.Amount" class="form-label t-text">Amount</label>
+                                    <input type="number" step="0.01" min="0" asp-for="RecurringIncomeInput.Amount" class="form-control t-bg-elevate-2 border-0" autocomplete="amount" aria-required="true" placeholder="Amount" />
+                                    <span asp-validation-for="RecurringIncomeInput.Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringIncomeInput.Date" class="form-label t-text">Start Date</label>
+                                    <input type="date" asp-for="RecurringIncomeInput.Date" class="form-control t-bg-elevate-2 border-0" autocomplete="date" aria-required="true" placeholder="Date" />
+                                    <span asp-validation-for="RecurringIncomeInput.Date" class="text-danger"></span>
+                                </div>
+                                <button class="site-button t-bg-primary">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var income in Model.RecurringIncomes)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
+                    <div class="flex-fill">
+                        <div class="h5 text-light">
+                            <span class="d-none d-sm-inline">
+                                @income.Category - @(
+                            income.RecurrenceInterval switch
+                            {
+                                Common.RecurrenceInterval.Daily => "Daily",
+                                Common.RecurrenceInterval.Weekly => "Weekly",
+                                Common.RecurrenceInterval.Monthly => "Monthly",
+                                Common.RecurrenceInterval.Yearly => "Yearly",
+                            }
+                            ) -
+                            </span>@income.Name
+                        </div>
+                        <div class="h6 text-light">@income.Description</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@income.Amount.ToString("#.00") &#8378;</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@income.Date.ToShortDateString()</div>
+                    </div>
+                    <div>
+                        <form class="form-inline" asp-page-handler="DeleteRecurringIncome">
+                            <input asp-for="DeleteId" hidden value="@income.Id">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".rincome-delete-modal-sm">
+                                <i class="bi bi-trash-fill h3"></i>
+                            </button>
+                            <div class="modal fade rincome-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="t-bg-elevate-1 p-3">
+                                            <div class="h1">Are you sure?</div>
+                                            <hr />
+                                            <div class="d-flex justify-content-around">
+                                                <button type="submit" class="t-bg-secondary site-button w-100 me-2">Yes</button>
+                                                <button type="button" class="t-bg-danger site-button w-100" data-bs-dismiss="modal" aria-label="Close">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            @if (Model.RecurringIncomes.Count == 0)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-3">
+                    <div class="h1 text-center w-100 text-light">No Recurring Income Entries Found!</div>
+                </div>
+            }
+        </div>
+    </div>
+    <div id="expenses" class="d-none w-100">
+        <div class="t-bg-elevate-1 w-100 border-radius-1 p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="h1 text-light">Expenses</div>
+                <button class="site-button t-bg-primary" data-bs-toggle="modal" data-bs-target=".expense-modal-lg">Add Expense <i class="bi bi-plus-lg"></i></button>
+                <div class="modal fade expense-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content t-bg-elevate-1 p-3">
+                            <div class="h1">Add A New Expense</div>
+                            <hr />
+                            <form method="post" asp-page-handler="CreateExpense">
+                                <div class="form-group mb-3">
+                                    <label asp-for="ExpenseInput.Name" class="form-label t-text">Name</label>
+                                    <input asp-for="ExpenseInput.Name" class="form-control t-bg-elevate-2 border-0" autocomplete="name" aria-required="true" placeholder="Name" />
+                                    <span asp-validation-for="ExpenseInput.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="ExpenseInput.Description" class="form-label t-text">Description</label>
+                                    <input asp-for="ExpenseInput.Description" class="form-control t-bg-elevate-2 border-0" autocomplete="description" aria-required="true" placeholder="Description" />
+                                    <span asp-validation-for="ExpenseInput.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="ExpenseInput.Category" class="form-label t-text">Category</label>
+                                    <select asp-for="ExpenseInput.Category" class="form-control t-bg-elevate-2 border-0" autocomplete="category" aria-required="true" placeholder="Category">
+                                        <option value="Housing">Housing</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Transportation">Transportation</option>
+                                        <option value="Healthcare">Healthcare</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Personal & Family Care">Personal & Family Care</option>
+                                        <option value="Entertainment & Recreation">Entertainment & Recreation</option>
+                                        <option value="Pets">Pets</option>
+                                        <option value="Debts">Debts</option>
+                                        <option value="Savings & Investments">Savings & Investments</option>
+                                        <option value="Insurance & Legal">Insurance & Legal</option>
+                                        <option value="Miscellaneous">Miscellaneous</option>
+                                    </select>
+                                    <span asp-validation-for="ExpenseInput.Category" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="ExpenseInput.Amount" class="form-label t-text">Amount</label>
+                                    <input type="number" step="0.01" min="0" asp-for="ExpenseInput.Amount" class="form-control t-bg-elevate-2 border-0" autocomplete="amount" aria-required="true" placeholder="Amount" />
+                                    <span asp-validation-for="ExpenseInput.Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="ExpenseInput.Date" class="form-label t-text">Date</label>
+                                    <input type="date" asp-for="ExpenseInput.Date" class="form-control t-bg-elevate-2 border-0" autocomplete="date" aria-required="true" placeholder="Date" />
+                                    <span asp-validation-for="ExpenseInput.Date" class="text-danger"></span>
+                                </div>
+                                <button class="site-button t-bg-primary">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var expense in Model.Expenses)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
+                    <div class="flex-fill">
+                        <div class="h5 text-light"><span class="d-none d-sm-inline">@expense.Category - </span>@expense.Name</div>
+                        <div class="h6 text-light">@expense.Description</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@expense.Amount.ToString("#.00") &#8378;</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@expense.Date.ToShortDateString()</div>
+                    </div>
+                    <div>
+                        <form class="form-inline" asp-page-handler="DeleteExpense">
+                            <input asp-for="DeleteId" hidden value="@expense.Id">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".expense-delete-modal-sm">
+                                <i class="bi bi-trash-fill h3"></i>
+                            </button>
+                            <div class="modal fade expense-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="t-bg-elevate-1 p-3">
+                                            <div class="h1">Are you sure?</div>
+                                            <hr />
+                                            <div class="d-flex justify-content-around">
+                                                <button type="submit" class="t-bg-secondary site-button w-100 me-2">Yes</button>
+                                                <button type="button" class="t-bg-danger site-button w-100" data-bs-dismiss="modal" aria-label="Close">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            @if (Model.Expenses.Count == 0)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-3">
+                    <div class="h1 text-center w-100 text-light">No Expense Entries Found!</div>
+                </div>
+            }
+        </div>
+        <div class="t-bg-elevate-1 w-100 border-radius-1 p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="h1 text-light">Recurring Expenses</div>
+                <button class="site-button t-bg-primary" data-bs-toggle="modal" data-bs-target=".rexpense-modal-lg">Add Recurring Expense <i class="bi bi-plus-lg"></i></button>
+                <div class="modal fade rexpense-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content t-bg-elevate-1 p-3">
+                            <div class="h1">Add A New Recurring Expense</div>
+                            <hr />
+                            <form method="post" asp-page-handler="CreateRecurringExpense">
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringExpenseInput.Name" class="form-label t-text">Name</label>
+                                    <input asp-for="RecurringExpenseInput.Name" class="form-control t-bg-elevate-2 border-0" autocomplete="name" aria-required="true" placeholder="Name" />
+                                    <span asp-validation-for="RecurringExpenseInput.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringExpenseInput.Description" class="form-label t-text">Description</label>
+                                    <input asp-for="RecurringExpenseInput.Description" class="form-control t-bg-elevate-2 border-0" autocomplete="description" aria-required="true" placeholder="Description" />
+                                    <span asp-validation-for="RecurringExpenseInput.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringExpenseInput.Category" class="form-label t-text">Category</label>
+                                    <select asp-for="RecurringExpenseInput.Category" class="form-control t-bg-elevate-2 border-0" autocomplete="category" aria-required="true" placeholder="Category">
+                                        <option value="Housing">Housing</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Transportation">Transportation</option>
+                                        <option value="Healthcare">Healthcare</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Personal & Family Care">Personal & Family Care</option>
+                                        <option value="Entertainment & Recreation">Entertainment & Recreation</option>
+                                        <option value="Pets">Pets</option>
+                                        <option value="Debts">Debts</option>
+                                        <option value="Savings & Investments">Savings & Investments</option>
+                                        <option value="Insurance & Legal">Insurance & Legal</option>
+                                        <option value="Miscellaneous">Miscellaneous</option>
+                                    </select>
+                                    <span asp-validation-for="RecurringExpenseInput.Category" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringExpenseInput.Interval" class="form-label t-text">Category</label>
+                                    <select asp-for="RecurringExpenseInput.Interval" class="form-control t-bg-elevate-2 border-0" autocomplete="interval" aria-required="true" placeholder="Interval">
+                                        <option value="0">Daily</option>
+                                        <option value="1">Weekly</option>
+                                        <option value="2">Monthly</option>
+                                        <option value="3">Yearly</option>
+                                    </select>
+                                    <span asp-validation-for="RecurringExpenseInput.Interval" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringExpenseInput.Amount" class="form-label t-text">Amount</label>
+                                    <input type="number" step="0.01" min="0" asp-for="RecurringExpenseInput.Amount" class="form-control t-bg-elevate-2 border-0" autocomplete="amount" aria-required="true" placeholder="Amount" />
+                                    <span asp-validation-for="RecurringExpenseInput.Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="RecurringExpenseInput.Date" class="form-label t-text">Start Date</label>
+                                    <input type="date" asp-for="RecurringExpenseInput.Date" class="form-control t-bg-elevate-2 border-0" autocomplete="date" aria-required="true" placeholder="Date" />
+                                    <span asp-validation-for="RecurringExpenseInput.Date" class="text-danger"></span>
+                                </div>
+                                <button class="site-button t-bg-primary">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var expense in Model.RecurringExpenses)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
+                    <div class="flex-fill">
+                        <div class="h5 text-light">
+                            <span class="d-none d-sm-inline">
+                                @expense.Category - @(
+                            expense.RecurrenceInterval switch
+                            {
+                                Common.RecurrenceInterval.Daily => "Daily",
+                                Common.RecurrenceInterval.Weekly => "Weekly",
+                                Common.RecurrenceInterval.Monthly => "Monthly",
+                                Common.RecurrenceInterval.Yearly => "Yearly",
+                            }
+                            ) -
+                            </span>@expense.Name
+                        </div>
+                        <div class="h6 text-light">@expense.Description</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@expense.Amount.ToString("#.00") &#8378;</div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="h5 text-light">@expense.Date.ToShortDateString()</div>
+                    </div>
+                    <div>
+                        <form class="form-inline" asp-page-handler="DeleteRecurringExpense">
+                            <input asp-for="DeleteId" hidden value="@expense.Id">
+                            <button type="button" class="rounded-circle border-0 t-bg-danger p-2" data-bs-toggle="modal" data-bs-target=".rexpense-delete-modal-sm">
+                                <i class="bi bi-trash-fill h3"></i>
+                            </button>
+                            <div class="modal fade rexpense-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="t-bg-elevate-1 p-3">
+                                            <div class="h1">Are you sure?</div>
+                                            <hr />
+                                            <div class="d-flex justify-content-around">
+                                                <button type="submit" class="t-bg-secondary site-button w-100 me-2">Yes</button>
+                                                <button type="button" class="t-bg-danger site-button w-100" data-bs-dismiss="modal" aria-label="Close">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            @if (Model.RecurringExpenses.Count == 0)
+            {
+                <div class="t-bg-elevate-2 border-radius-1 d-flex p-3">
+                    <div class="h1 text-center w-100 text-light">No Recurring Expense Entries Found!</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function ShowIncomes() {
+            document.getElementById("incomes").classList.remove("d-none");
+            document.getElementById("incomes").classList.add("d-block");
+
+            document.getElementById("expenses").classList.remove("d-block");
+            document.getElementById("expenses").classList.add("d-none");
+        }
+
+        function ShowExpenses() {
+            document.getElementById("incomes").classList.remove("d-block");
+            document.getElementById("incomes").classList.add("d-none");
+
+            document.getElementById("expenses").classList.remove("d-none");
+            document.getElementById("expenses").classList.add("d-block");
+        }
+    </script>
+}

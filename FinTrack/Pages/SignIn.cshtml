@@ -1,0 +1,48 @@
+﻿@page
+@model FinTrack.Pages.SignInModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="container">
+    <div class="border-radius-1 p-3 t-bg-elevate-1 t-text text-center">
+        <div class="display-4">Sign In to FinTrack</div>
+    </div>
+    <div class="row g-2 mb-2">
+        <div class="col-12 col-md-4">
+            <div class="border-radius-1 p-3 t-bg-elevate-1 h-100 t-text mt-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control t-bg-elevate-2 border-0" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label asp-for="Input.Email" class="form-label t-text">Email</label>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Password" class="form-control t-bg-elevate-2 border-0" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <label asp-for="Input.Password" class="form-label t-text">Password</label>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="checkbox mb-3">
+                        <label asp-for="Input.RememberMe" class="form-label">
+                            <input class="form-check-input" asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                    <div>
+                        <button id="login-submit" type="submit" class="border-0 t-bg-primary t-text-dark site-button">Sign In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="border-radius-1 t-bg-elevate-1 h-100 mt-2">
+                <img src="https://source.unsplash.com/500x300/?signin" style="max-height: 300px; object-fit: cover; filter: brightness(.8) contrast(1.2);" class="w-100 mt-2 px-2" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,225 @@
+﻿@page
+@using Microsoft.AspNetCore.Html
+@using System.Text
+@model FinTrack.Pages.Dashboard.AnalyticsModel
+@{
+}
+
+
+<div class="container px-1">
+    <div class="row g-2 py-2 row-cols-1">
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3">
+                <div class="h1 text-center">Select Time Frame</div>
+                <div class="form-group">
+                    <select class="form-control t-bg-elevate-2 t-text border-1" onchange="SelectTimeFrame(this)" id="timeSpanSelect">
+                        <option class="t-text text-center" value="year">This Year</option>
+                        <option class="t-text text-center" value="this_month">This Month</option>
+                        <option class="t-text text-center" value="this_week">This Week</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2 pb-2 row-cols-1">
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3">
+                <div class="h1 text-center">Recommendations</div>
+                @foreach (var recommendation in Model.Recommendations)
+                {
+                    <div class="t-bg-elevate-2 border-radius-1 p-3">
+                        <div class="h4 text-light">@recommendation</div>
+                    </div>
+                }
+                @if(Model.Recommendations.Count == 0)
+                {
+                    <div class="t-bg-elevate-2 border-radius-1 p-3">
+                        <div class="h4 text-light text-center">No Recommendations Found</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row g-2 pb-2 row-cols-1 row-cols-lg-3">
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3">
+                <div class="h2 text-light text-center mb-2">Total Incomes</div>
+                <div id="IncomesLineChart"></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3">
+                <div class="h2 text-light text-center mb-2">Total Expenses</div>
+                <div id="ExpensesLineChart"></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3">
+                <div class="h2 text-light text-center mb-2">Balance</div>
+                <div id="BalanceLineChart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2 pb-2 row-cols-1 row-cols-lg-2">
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3">
+                <div class="h2 text-light text-center mb-2">Income By Category</div>
+                <div id="IncomesPieChart"></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3">
+                <div class="h2 text-light text-center mb-2">Expense By Category</div>
+                <div id="ExpensesPieChart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2 pb-2 row-cols-1 row-cols-lg-2">
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3 h-100">
+                <div class="h2 text-light text-center mb-2">Top Incomes By Category</div>
+                @foreach (var item in Model.TopIncomeCategories)
+                {
+                    <div class="row g-2 pb-2 row-cols-1">
+                        <div class="col">
+                            <div class="t-bg-elevate-2 border-radius-1 p-3">
+                                <div class="h3 text-light text-center mb-2">@item.Key</div>
+                                <div class="h5 text-light text-center mb-2">@item.Sum(x => x.Amount).ToString("#.00") &#8378;</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col">
+            <div class="t-bg-elevate-1 border-radius-1 p-3 h-100">
+                <div class="h2 text-light text-center mb-2">Top Expenses By Category</div>
+                @foreach (var item in Model.TopSpendingExpenseCategories)
+                {
+                    <div class="row g-2 pb-2 row-cols-1">
+                        <div class="col">
+                            <div class="t-bg-elevate-2 border-radius-1 p-3">
+                                <div class="h3 text-light text-center mb-2">@item.Key</div>
+                                <div class="h5 text-light text-center mb-2">@item.Sum(x => x.Amount).ToString("#.00") &#8378;</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    HtmlString MakeLineChart(string chartName, string title, string width, string height, string backgroundColor, string colors, string chartAreaWidth, string chartAreaHeight, string hAxisTextStyleColor, string vAxisTextStyleColor, string legendTextStyleColor, string titleTextStyleColor, string data)
+    {
+        return new HtmlString($@"
+                google.charts.setOnLoadCallback(drawChart{chartName});
+                function drawChart{chartName}() {{
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('number', 'Day');
+                    data.addColumn('number', 'Turkish Liras');
+                    data.addRows([
+        {data}
+                    ]);
+                    var options = {{
+                        title: '{title}',
+                        width: '{width}',
+                        height: '{height}',
+                        backgroundColor: '{backgroundColor}',
+                        colors: [{colors}],
+                        chartArea: {{
+                            width: '{chartAreaWidth}',
+                            height: '{chartAreaHeight}'
+                        }},
+                        hAxis: {{
+                            textStyle: {{ color: '{hAxisTextStyleColor}' }}
+                        }},
+                        vAxis: {{
+                            textStyle: {{ color: '{vAxisTextStyleColor}' }}
+                        }},
+                        legend: {{
+                            textStyle: {{ color: '{legendTextStyleColor}' }},
+                        }},
+                        titleTextStyle: {{
+                            color: '{titleTextStyleColor}'
+                        }}
+                    }};
+                    var chart = new google.visualization.LineChart(document.getElementById('{chartName}'));
+                    chart.draw(data, options);
+                }}
+        ");
+    }
+
+    HtmlString MakePieChart(string chartName, string title, string width, string height, string backgroundColor, string colors, string chartAreaWidth, string chartAreaHeight, string hAxisTextStyleColor, string vAxisTextStyleColor, string legendTextStyleColor, string titleTextStyleColor, string data)
+    {
+        return new HtmlString($@"
+                google.charts.setOnLoadCallback(drawChart{chartName});
+                function drawChart{chartName}() {{
+                    var data = google.visualization.arrayToDataTable([
+          {data}
+        ]);
+
+                    var options = {{
+                        title: '{title}',
+                        width: '{width}',
+                        height: '{height}',
+                        backgroundColor: '{backgroundColor}',
+                        colors: [{colors}],
+                        chartArea: {{
+                            width: '{chartAreaWidth}',
+                            height: '{chartAreaHeight}'
+                        }},
+                        legend: {{
+                            textStyle: {{ color: '{legendTextStyleColor}' }},
+                        }},
+                        titleTextStyle: {{
+                            color: '{titleTextStyleColor}'
+                        }}
+                    }};
+                    var chart = new google.visualization.PieChart(document.getElementById('{chartName}'));
+                    chart.draw(data, options);
+                }}
+        ");
+    }
+}
+
+@section Scripts {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        @MakeLineChart("IncomesLineChart", "Income", "100%", "100%", "#1f1f1f", "'#6da5c2'", "80%", "80%", "#ECECEC", "#ECECEC", "#ECECEC", "#ECECEC", Model.MakeIncomeLineChartData());
+        @MakeLineChart("ExpensesLineChart", "Expense", "100%", "100%", "#1f1f1f", "'#6da5c2'", "80%", "80%", "#ECECEC", "#ECECEC", "#ECECEC", "#ECECEC", Model.MakeExpenseLineChartData());
+        @MakeLineChart("BalanceLineChart", "Balance", "100%", "100%", "#1f1f1f", "'#6da5c2'", "80%", "80%", "#ECECEC", "#ECECEC", "#ECECEC", "#ECECEC", Model.MakeBalanceLineChartData());
+        @MakePieChart("IncomesPieChart", "Income", "100%", "100%", "#1f1f1f", "'#7BDFF2', '#B2DBBF', '#8075A8', '#FEB144', '#FF7E67', '#ACE1AF', '#F7A9A8'", "80%", "80%", "#ECECEC", "#ECECEC", "#ECECEC", "#ECECEC", Model.MakeIncomePieChartData());
+        @MakePieChart("ExpensesPieChart", "Expense", "100%", "100%", "#1f1f1f", "'#7BDFF2', '#B2DBBF', '#8075A8', '#FEB144', '#FF7E67', '#ACE1AF', '#F7A9A8'", "80%", "80%", "#ECECEC", "#ECECEC", "#ECECEC", "#ECECEC", Model.MakeExpensePieChartData());
+
+        $(window).resize(function () {
+            drawChartIncomesLineChart();
+            drawChartExpensesLineChart();
+            drawChartBalanceLineChart();
+            drawChartIncomesPieChart();
+            drawChartExpensesPieChart();
+        });
+
+    </script>
+    <script>
+        // if the timeSpan is year, selected option is year, etc
+        var timeSpan = "@Model.TimeSpan";
+        var select = document.getElementById("timeSpanSelect");
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == timeSpan) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+
+        function SelectTimeFrame(select)
+        {
+            var value = select.value;
+            window.location.href = "/Dashboard/Analytics?timeSpan=" + value;
+        }
+    </script>
+}

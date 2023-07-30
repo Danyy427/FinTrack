@@ -1,0 +1,94 @@
+﻿@page
+@model FinTrack.Pages.Dashboard.IndexModel
+@{
+}
+
+<div class="container">
+    <div class="border-radius-1 t-bg-elevate-1 p-3 mt-2">
+        <div class="h1 text-center">Summary Of This Month</div>
+    </div>
+    <div class="row g-2 py-2">
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 p-3 text-center">Monthly Income: <br /><span class="text-light">@Model.MonthlyIncome.ToString("#0.00") &#8378;</span></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 p-3 text-center">Monthly Expense: <br /><span class="text-light">@Model.MonthlyExpense.ToString("#0.00") &#8378;</span></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 p-3 text-center">Monthly Balance: <br /><span class="text-light">@Model.MonthylBalance.ToString("#0.00") &#8378;</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 p-3 text-center">Top Income Category: <br /><span class="text-light">@(Model.TopIncomeCategory == "" ? "---" : Model.TopIncomeCategory)</span><br /><span class="text-light h-4">@Model.TopIncomeCategoryAmount.ToString("#0.00") &#8378;</span></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 p-3 text-center">Top Expense Category: <br /><span class="text-light">@(Model.TopExpenseCategory == "" ? "---" : Model.TopExpenseCategory)</span><br /><span class="text-light h-4">@Model.TopExpenseCategoryAmount.ToString("#0.00") &#8378;</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pt-2 g-2">
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h2 text-center mb-2">Recent Incomes</div>
+                @foreach (var income in Model.Incomes)
+                {
+                    <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
+                        <div class="flex-fill">
+                            <div class="h5 text-light"><span class="d-none d-sm-inline">@income.Category - </span>@income.Name</div>
+                            <div class="h6 text-light">@income.Description</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@income.Amount.ToString("#.00") &#8378;</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@income.Date.ToShortDateString()</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.Incomes.Count == 0)
+                {
+                    <div class="t-bg-elevate-2 border-radius-1 d-flex p-3">
+                        <div class="h1 text-center w-100 text-light">No Income Entries Found!</div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h2 text-center mb-2">Recent Expenses</div>
+                @foreach (var expense in Model.Expenses)
+                {
+                    <div class="t-bg-elevate-2 border-radius-1 d-flex p-2 mb-2">
+                        <div class="flex-fill">
+                            <div class="h5 text-light"><span class="d-none d-sm-inline">@expense.Category - </span>@expense.Name</div>
+                            <div class="h6 text-light">@expense.Description</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@expense.Amount.ToString("#.00") &#8378;</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@expense.Date.ToShortDateString()</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.Expenses.Count == 0)
+                {
+                    <div class="t-bg-elevate-2 border-radius-1 d-flex p-3">
+                        <div class="h1 text-center w-100 text-light">No Expense Entries Found!</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

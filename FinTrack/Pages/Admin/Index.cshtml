@@ -1,0 +1,223 @@
+﻿@page
+@model FinTrack.Pages.Admin.IndexModel
+@{
+    Layout = "/Pages/Dashboard/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-lg-3 g-2 py-2">
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 text-light text-center mb-2">Search User by Email</div>
+                <form method="post" asp-page-handler="SearchUserByEmail">
+                    <div class="d-flex">
+                        <input class="form-control t-bg-elevate-2 border-0 t-text" asp-for="UserSearchEmail" />
+                        <button type="submit" class="p-2 border-0 t-bg-primary"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 text-light text-center mb-2">Search Incomes by User Email</div>
+                <form method="post" asp-page-handler="SearchIncomeByEmail">
+                    <div class="d-flex">
+                        <input class="form-control t-bg-elevate-2 border-0 t-text" asp-for="IncomeSearchEmail" />
+                        <button type="submit" class="p-2 border-0 t-bg-primary"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col">
+            <div class="border-radius-1 t-bg-elevate-1 p-3 h-100">
+                <div class="h3 text-light text-center mb-2">Search Expenses by User Email</div>
+                <form method="post" asp-page-handler="SearchExpenseByEmail">
+                    <div class="d-flex">
+                        <input class="form-control t-bg-elevate-2 border-0 t-text" asp-for="ExpenseSearchEmail" />
+                        <button type="submit" class="p-2 border-0 t-bg-primary"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @if (Model.UserSearchResult != null)
+    {
+        <div class="w-100 py-2 border-radius-1 t-bg-elevate-1 p-4 ">
+            <div class="h3">Search Results for "@Model.UserSearchEmail"</div>
+            <div class="row row-cols-2 row-cols-lg-4">
+                <div class="col">
+                    <div class="text-center t-bg-elevate-2 h6 text-light border-radius-1 p-3 h-100">
+                        Name: @Model.UserSearchResult.FullName
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center t-bg-elevate-2 h6 text-light border-radius-1 p-3 h-100">
+                        Email: @Model.UserSearchResult.Email
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center t-bg-elevate-2 h6 text-light border-radius-1 p-3 h-100">
+                        Age: @Model.UserSearchResult.Age
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center t-bg-elevate-2 h6 text-light border-radius-1 p-3 h-100">
+                        Sex: @Model.UserSearchResult.Sex
+                    </div>
+                </div>
+            </div>
+            <div class="row row-cols-2 py-2">
+                <div class="col">
+                    <div class="text-center t-bg-elevate-2 h6 text-light border-radius-1 p-3 h-100">
+                        Country: @Model.UserSearchResult.Country
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center t-bg-elevate-2 h6 text-light border-radius-1 p-3 h-100">
+                        Is Email Confirmed: @Model.UserSearchResult.EmailConfirmed
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (Model.ExpenseSearch != null || Model.RecurringExpenseSearch != null)
+    {
+        <div class="w-100 py-2 border-radius-1 t-bg-elevate-1 p-4 ">
+            <div class="h3">Search Results for "@Model.ExpenseSearchEmail"</div>
+            <div class="t-bg-elevate-2 w-100 border-radius-1 p-3 mb-2">
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="h1 text-light">Expenses</div>
+                </div>
+                @foreach (var expense in Model.ExpenseSearch)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-2 mb-2">
+                        <div class="flex-fill">
+                            <div class="h5 text-light"><span class="d-none d-sm-inline">@expense.Category - </span>@expense.Name</div>
+                            <div class="h6 text-light">@expense.Description</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@expense.Amount.ToString("#.00") &#8378;</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@expense.Date.ToShortDateString()</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.ExpenseSearch.Count == 0)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-3">
+                        <div class="h1 text-center w-100 text-light">No Expense Entries Found!</div>
+                    </div>
+                }
+            </div>
+            <div class="t-bg-elevate-2 w-100 border-radius-1 p-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="h1 text-light">Recurring Expenses</div>
+                </div>
+                @foreach (var expense in Model.RecurringExpenseSearch)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-2 mb-2">
+                        <div class="flex-fill">
+                            <div class="h5 text-light">
+                                <span class="d-none d-sm-inline">
+                                    @expense.Category - @(
+                            expense.RecurrenceInterval switch
+                            {
+                                Common.RecurrenceInterval.Daily => "Daily",
+                                Common.RecurrenceInterval.Weekly => "Weekly",
+                                Common.RecurrenceInterval.Monthly => "Monthly",
+                                Common.RecurrenceInterval.Yearly => "Yearly",
+                            }
+                            ) -
+                                </span>@expense.Name
+                            </div>
+                            <div class="h6 text-light">@expense.Description</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@expense.Amount.ToString("#.00") &#8378;</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@expense.Date.ToShortDateString()</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.RecurringExpenseSearch.Count == 0)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-3">
+                        <div class="h1 text-center w-100 text-light">No Recurring Expense Entries Found!</div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else if (Model.IncomeSearch != null || Model.RecurringIncomeSearch != null)
+    {
+        <div class="w-100 py-2 border-radius-1 t-bg-elevate-1 p-4 ">
+            <div class="h3">Search Results for "@Model.IncomeSearchEmail"</div>
+            <div class="t-bg-elevate-2 w-100 border-radius-1 p-3 mb-2">
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="h1 text-light">Incomes</div>
+                </div>
+                @foreach (var income in Model.IncomeSearch)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-2 mb-2">
+                        <div class="flex-fill">
+                            <div class="h5 text-light"><span class="d-none d-sm-inline">@income.Category - </span>@income.Name</div>
+                            <div class="h6 text-light">@income.Description</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@income.Amount.ToString("#.00") &#8378;</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@income.Date.ToShortDateString()</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.IncomeSearch.Count == 0)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-3">
+                        <div class="h1 text-center w-100 text-light">No Income Entries Found!</div>
+                    </div>
+                }
+            </div>
+            <div class="t-bg-elevate-2 w-100 border-radius-1 p-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="h1 text-light">Recurring Incomes</div>
+                </div>
+                @foreach (var income in Model.RecurringIncomeSearch)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-2 mb-2">
+                        <div class="flex-fill">
+                            <div class="h5 text-light">
+                                <span class="d-none d-sm-inline">
+                                    @income.Category - @(
+                            income.RecurrenceInterval switch
+                            {
+                                Common.RecurrenceInterval.Daily => "Daily",
+                                Common.RecurrenceInterval.Weekly => "Weekly",
+                                Common.RecurrenceInterval.Monthly => "Monthly",
+                                Common.RecurrenceInterval.Yearly => "Yearly",
+                            }
+                            ) -
+                                </span>@income.Name
+                            </div>
+                            <div class="h6 text-light">@income.Description</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@income.Amount.ToString("#.00") &#8378;</div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="h5 text-light">@income.Date.ToShortDateString()</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.RecurringIncomeSearch.Count == 0)
+                {
+                    <div class="t-bg-elevate-3 border-radius-1 d-flex p-3">
+                        <div class="h1 text-center w-100 text-light">No Recurring Income Entries Found!</div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

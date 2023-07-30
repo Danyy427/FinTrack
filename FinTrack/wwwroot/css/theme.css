@@ -1,0 +1,71 @@
+﻿:root {
+    --theme-bg: #121212;
+    --theme-text: #ECECEC;
+    --theme-primary: #b795cc;
+    --theme-secondary: #91d9c9;
+    --theme-danger: #c97f7b;
+}
+
+.t-bg-dark {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+}
+
+.t-bg-danger {
+    background-color: var(--theme-danger);
+    color: var(--theme-bg);
+}
+
+.t-bg-elevate-1 {
+    background-color: #1f1f1f;
+    color: var(--theme-text);
+}
+
+.t-bg-elevate-2 {
+    background-color: #232323;
+    color: var(--theme-text);
+}
+
+.t-bg-elevate-2:focus {
+    background-color: #232323;
+    color: var(--theme-text);
+}
+
+.t-bg-elevate-3 {
+    background-color: #272727;
+    color: var(--theme-text);
+}
+
+.t-bg-elevate-4 {
+    background-color: #2B2B2B;
+    color: var(--theme-text);
+}
+
+.t-bg-elevate-5 {
+    background-color: #2E2E2E;
+    color: var(--theme-text);
+}
+
+.t-bg-primary {
+    background-color: var(--theme-primary);
+}
+
+.t-bg-secondary {
+    background-color: var(--theme-secondary);
+}
+
+.t-fg-primary {
+    color: var(--theme-primary);
+}
+
+.t-fg-secondary {
+    color: var(--theme-secondary);
+}
+
+.t-text {
+    color: var(--theme-text);
+}
+
+.t-text-dark {
+    color: var(--theme-bg);
+}
